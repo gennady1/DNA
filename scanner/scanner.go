@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	device       string = "en1" // "eth0"
+	device       string = "en1" // "eth0" //en1 my wireless card
 	snapshot_len int32  = 1024
 	promiscuous  bool   = false
 	err          error
@@ -21,7 +21,7 @@ var (
 )
 
 func Scan() {
-	fmt.Println("\n---- Scanner Util ----")
+	fmt.Println("\n---- Scanner ----")
 
 	// bytes := Make_Simple_Packet()
 	// Decode_Data_Packet(bytes)
@@ -34,9 +34,11 @@ func Scan() {
 
 //----- PCAP read from
 func Read_RAW_Socket_Data() {
+	fmt.Println("\tStarting live network traffic monitor (promiscuous mode)\n")
 	// Open device
 	handle, err = pcap.OpenLive(device, snapshot_len, promiscuous, timeout)
 	if err != nil {
+		fmt.Println("Looks like there is an error getting live network stream. Try running it again with 'sudo' command")
 		log.Fatal(err)
 	}
 	defer handle.Close()
@@ -49,18 +51,18 @@ func Read_RAW_Socket_Data() {
 	}
 }
 
-func read_raw_socket_data(network_adapter_name string) {
-	if handle, err := pcap.OpenLive(network_adapter_name, 1024, true, pcap.BlockForever); err != nil {
-		panic(err)
-	} else if err := handle.SetBPFFilter("tcp and port 80"); err != nil { // optional
-		panic(err)
-	} else {
-		packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
-		for packet := range packetSource.Packets() {
-			process_gopacket(packet)
-		}
-	}
-}
+// func read_raw_socket_data(network_adapter_name string) {
+// 	if handle, err := pcap.OpenLive(network_adapter_name, 1024, true, pcap.BlockForever); err != nil {
+// 		panic(err)
+// 	} else if err := handle.SetBPFFilter("tcp and port 80"); err != nil { // optional
+// 		panic(err)
+// 	} else {
+// 		packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
+// 		for packet := range packetSource.Packets() {
+// 			process_gopacket(packet)
+// 		}
+// 	}
+// }
 
 //----- PCAP read from file
 func Read_PCAP_Packets_FromFile() {

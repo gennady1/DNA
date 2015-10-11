@@ -9,6 +9,6 @@ import (
 func main() {
 	// str := ")(esreveR.litU gnitseT"
 	// fmt.Println(util.Reverse_String(str))
-	fmt.Println("\n-- Simple GO-lang driver - redis driver --")
+	fmt.Println("\n-- Simple GO-lang driver --")
 	scanner.Scan()
 }
